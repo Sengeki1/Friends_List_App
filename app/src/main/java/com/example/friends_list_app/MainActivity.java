@@ -22,6 +22,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private List<Friend> friends = new ArrayList<>();
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,16 +56,24 @@ public class MainActivity extends AppCompatActivity {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Friend friend = new Friend( String.valueOf(name.getText()),
-                                            String.valueOf(email.getText()),
-                                            String.valueOf(birthday.getText()));
+                if (String.valueOf(name.getText()) == " " &&
+                        String.valueOf(email.getText()) == " " &&
+                            String.valueOf(birthday.getText()) == " ") {
 
-                friends.add(friend);
+                    Friend friend = new Friend( String.valueOf(name.getText()),
+                                                String.valueOf(email.getText()),
+                                                String.valueOf(birthday.getText()));
+
+                    friends.add(friend);
+                    Toast.makeText(MainActivity.this, "Created friend successfully!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Forum not filled correctly!", Toast.LENGTH_LONG).show();
+                }
             }
         });
-    }
 
-    Intent intent = new Intent(this, RecyclerActivity.class);
+        intent = new Intent(this, RecyclerActivity.class);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -83,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("name", friend.getEmail());
                 intent.putExtra("name", friend.getBirthday());
             }
-            //startActivity(intent);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
