@@ -16,6 +16,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (String.valueOf(name.getText()) == " " &&
-                        String.valueOf(email.getText()) == " " &&
-                            String.valueOf(birthday.getText()) == " ") {
+                if (String.valueOf(name.getText()) != " " ||
+                        String.valueOf(email.getText()) != " " ||
+                            String.valueOf(birthday.getText()) != " ") {
 
                     Friend friend = new Friend( String.valueOf(name.getText()),
                                                 String.valueOf(email.getText()),
@@ -87,11 +88,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Clicked on Settings!", Toast.LENGTH_SHORT).show();
             return true;
         } else if (item.getItemId() == R.id.friends_Id) {
-            for (Friend friend : friends) {
-                intent.putExtra("name", friend.getName());
-                intent.putExtra("name", friend.getEmail());
-                intent.putExtra("name", friend.getBirthday());
-            }
+            intent.putExtra("friends_list", (Serializable) friends);
             startActivity(intent);
             return true;
         }

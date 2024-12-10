@@ -1,8 +1,8 @@
 package com.example.friends_list_app;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 
-public class Friend {
+public class Friend implements Serializable {
     private String name;
     private String email;
     private String birthday;
