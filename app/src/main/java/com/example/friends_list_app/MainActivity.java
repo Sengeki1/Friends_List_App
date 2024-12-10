@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Friend> friends = new ArrayList<>();
     private Intent intent;
+    private boolean isFirstLaunch = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,5 +94,17 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (isFirstLaunch) { // Skip list updates on the first launch
+            isFirstLaunch = false;
+            return;
+        }
+
+        if (!isFirstLaunch) friends = RecyclerActivity.notifyFriends();
     }
 }

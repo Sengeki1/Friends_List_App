@@ -19,7 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerActivity extends AppCompatActivity {
+public class RecyclerActivity extends AppCompatActivity implements OnFriendActionListener {
+
+    private static List<Friend> friends;
+    private FriendAdapter mAdapter;
+
+    public static List<Friend> notifyFriends() {
+        return friends;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +39,18 @@ public class RecyclerActivity extends AppCompatActivity {
             return insets;
         });
 
-        List<Friend> friends = (List<Friend>) getIntent().getSerializableExtra("friends_list");
+        friends = (List<Friend>) getIntent().getSerializableExtra("friends_list");
+        Intent intent = new Intent(Intent.ACTION_SEND);
 
         RecyclerView mRecycleView = findViewById(R.id.recyclerView);
-        FriendAdapter mAdapter = new FriendAdapter(this, friends);
+        mAdapter = new FriendAdapter(this, friends, intent, this);
         mRecycleView.setAdapter(mAdapter);
         mRecycleView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public void onDeleteFriend(int position) {
+        friends.remove(position);
+        mAdapter.notifyItemRemoved(position);
     }
 }
